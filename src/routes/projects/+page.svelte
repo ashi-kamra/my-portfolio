@@ -1,0 +1,101 @@
+<h1>
+    My Projects
+</h1>
+
+<div class="projects">
+    <article>
+        <h2> <a href="../projects/a2.html"> A2: Exploratory Data Analysis </a> </h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>In this project I conduct a general analysis of MBTA transit as it relates to transit-oriented development in Massachussets, with a specific focus on accessibility. </p>
+    </article>
+    <article>
+        <h2> <a href="../projects/a3.html"> A3: Visualization Critique & Redesign </a> </h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>In this project, I conduct critical design analysis a visualization from the New York Times, sketch my own version and present a final redesign based on my critiques.</p>
+    </article>
+    <article>
+        <h2>Maxime impedit nostrum cum!</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Excepturi officia veniam sit odio! Autem itaque qui porro possimus quam nesciunt debitis aliquid sint a ad numquam explicabo voluptatibus quos, hic non suscipit fugiat facere vero doloribus sunt expedita!</p>
+    </article>
+    <article>
+        <h2>Reprehenderit tenetur ipsam temporibus?</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Laboriosam, ab omnis tempora voluptate sequi quae perferendis iste incidunt perspiciatis sit amet impedit quo dolor debitis, voluptatibus minima ea nostrum deserunt. Labore quae eligendi tempora nihil dolorum accusantium vero.</p>
+    </article>
+    <article>
+        <h2>Aut vero animi reprehenderit.</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Optio placeat, ducimus rem illum soluta natus voluptas adipisci, laudantium, ea expedita tempore. Magnam, quam! Possimus, eligendi temporibus rerum soluta modi accusantium dolorum voluptatem veritatis ducimus mollitia corporis quod hic.</p>
+    </article>
+    <article>
+        <h2>Maiores labore explicabo necessitatibus?</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Nemo eum recusandae quo quis voluptatem aperiam, fugit hic veritatis voluptates accusantium est, vitae iusto. Sit nam aliquid minima recusandae, eos excepturi deleniti eaque quia quasi quas provident sequi repudiandae.</p>
+    </article>
+    <article>
+        <h2>Accusamus iusto voluptates hic.</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Adipisci officia ad molestiae quasi? Ad, neque maiores? Iusto deleniti excepturi ipsam culpa assumenda ex delectus, eum laudantium libero? Alias beatae aperiam possimus odio esse nobis veritatis impedit non doloribus.</p>
+    </article>
+    <article>
+        <h2>Modi, iure. Unde, a!</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Ipsam sed enim distinctio nihil optio omnis. Eius veniam culpa, repellendus iste hic voluptate laborum numquam dolore eveniet inventore alias deserunt dignissimos cum earum obcaecati voluptatem delectus vel. Iure, modi.</p>
+    </article>
+    <article>
+        <h2>Dicta nulla dolorem magni?</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Laboriosam officiis necessitatibus blanditiis explicabo nam mollitia, minus odio error ipsam ducimus aliquid perferendis cum velit at earum reiciendis suscipit illum harum, nisi praesentium numquam quibusdam maiores. Soluta, facere molestiae.</p>
+    </article>
+    <article>
+        <h2>Facere magnam ratione rem.</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Nobis vel, voluptates molestias inventore beatae nam ipsum! Suscipit dicta vero provident reprehenderit aliquid maiores, iste atque dolor tempore ullam impedit nihil quae vitae ab sit amet facilis enim. Quis.</p>
+    </article>
+    <article>
+        <h2>Laborum deserunt rem commodi!</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Suscipit quod totam dicta laboriosam dolorum labore sit! Cumque, eligendi? A, assumenda sunt eius earum maxime distinctio! Iste nisi quam tempora dolorum ducimus molestias repellendus aspernatur beatae libero doloremque? Sed.</p>
+    </article>
+    <article>
+        <h2>Eos minus molestias ea?</h2>
+        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+        <p>Asperiores dignissimos commodi sapiente nemo illo voluptatum enim sint provident exercitationem accusantium iste, blanditiis sit dolore tempore modi repellendus illum beatae veritatis fugit minus, laboriosam eveniet. Perferendis quaerat sint iste.</p>
+    </article>
+</div>
+
+<p>Reach me @ ashimak@mit.edu!</p>
+<section class="resume-grid">
+    <div class="resume-subgrid">
+        <h2 class="resume-title"> Education </h2>
+        <ul>
+            <li>Computer Science and Economics @ Wellesley College 2022-2026</li>
+            <li>Cross Registered @ MIT</li>
+        </ul>
+    </div>
+    <div class="resume-subgrid">
+        <h2 class="resume-title"> Technical Skills </h2>
+        <ul>
+            <li>Front-End Development</li>
+            <li>Data Visualization</li>
+            <li>UI/UX</li>
+            <li>Machine Learning/AI</li>
+        </ul>
+    </div>
+    <div class="resume-subgrid">
+        <h2 class="resume-title"> Experience </h2>
+        <ul>
+            <li>Undergraduate Research Developer @ MIT Center for Constructive Communication</li> 
+            
+            <li>Data Structures Teaching Assistant</li>
+            <li>Web Developer for WHACK 2023</li>
+        </ul>
+    </div>
+    <div class="resume-subgrid">
+        <h2 class="resume-title"> Projects </h2>
+        <ul>
+            <li>Cash Course: An AI-Powered Financial Literacy Platform built @ WHACK 2024</li>
+        </ul>
+    </div>
+</section>

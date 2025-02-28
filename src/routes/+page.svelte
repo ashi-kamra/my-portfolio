@@ -1,2 +1,5 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+
+<h1>Ashi Kamra: Personal Site and Portfolio</h1>
+<p>CS & Econ Student @ Wellesley taking Viz & Society!</p>
+<img src="images/me-2 copy.png" height= "450px" alt="me holding a flower">
+

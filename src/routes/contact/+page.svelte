@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Contact Me</title>
+</svelte:head>
+
 <h1>My Contacts</h1>
     
 <form method="get" action="mailto:ashimak@mit.edu" enctype="text/plain">

@@ -87,7 +87,7 @@ img {
 }
 
 .projects {
-  margin-top: 2em;
+  margin-top: 1em;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
   gap: 1em;
@@ -109,13 +109,3 @@ img {
 }
 
 ul li { padding: 3px 0px; }
-
-article {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3;
-}
-
-article h2 {
-  margin: 0;
-}

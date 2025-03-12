@@ -1,6 +1,10 @@
 <script>
     import projects from "$lib/projects.json";
     import Project from "$lib/Project.svelte";
+
+    let profileData = fetch("https://api.github.com/users/ashi-kamra");
+
+
 </script>
 
 <svelte:head>
@@ -17,3 +21,4 @@
         <Project data={p} hLevel="3"/>
     {/each}
 </div>
+

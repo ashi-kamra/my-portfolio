@@ -5,8 +5,9 @@
 
 <article>
     <!-- need to change json file to add links for all pages -->
-    <svelte:element this={"h" + hLevel}>{data.title}</svelte:element>
+    <svelte:element this={"h" + hLevel}> <a href={data.url}> {data.title} </a></svelte:element>
     <img src={data.image} alt="">
+    <br>
     <p>{data.description} </p>
 </article>
 

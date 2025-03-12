@@ -1,13 +1,25 @@
 <script>
     import { page } from "$app/stores";
+    let root = globalThis?.document?.documentElement;
+    
+    $: root?.style.setProperty("color-scheme", colorScheme);
+
+    let localStorage = globalThis.localStorage ?? {};
+
+    let colorScheme = localStorage.colorScheme ? localStorage.colorScheme : "light dark";
+
+    $: localStorage.colorScheme = colorScheme;
+
     let pages = [
         { url: "./", title: "Home"},
         { url: "./projects", title: "Projects"},
         { url: "./contact", title: "Contact"},
         { url: "https://github.com/ashi-kamra", title: "Github"}
     ];
+    
 
-    let colorScheme = "light dark";
+
+    
 
 </script>
 
@@ -26,6 +38,29 @@
         </a>
     {/each}
 </nav>
+{#await fetch("https://api.github.com/users/ashi-kamra") }
+<p>Loading...</p>
+{:then response} {#await response.json()}
+<p>Decoding...</p>
+{:then data}
+<section>
+    <h2> My Github Stats </h2>
+    <dl>
+      <dt>Followers:</dt>
+      <dd>{data.followers}</dd>
+      <dt>Following:</dt>
+      <dd>{data.following}</dd>
+      <dt>Public Repositories:</dt>
+      <dd>{data.public_repos}</dd>
+    </dl>
+  
+  </section>
+{:catch error}
+<p class="error">Something went wrong: {error.message}</p>
+{/await} {:catch error}
+<p class="error">Something went wrong: {error.message}</p>
+{/await}
+
 <slot />
 
 <style>
@@ -71,5 +106,17 @@ label.color-scheme {
   display: inline-flex;
   gap: 4px;
 }
+
+dl {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px
+}
+
+dd {
+  display: subgrid;
+  color: #E75480
+}
+
 
 </style>

@@ -20,3 +20,19 @@
     <button type="submit">Submit</button>
 </form>
     
+<style>
+    form {
+  margin-top: 1em;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1em;
+}
+
+label {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  
+}
+
+</style>

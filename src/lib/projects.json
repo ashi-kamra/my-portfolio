@@ -2,32 +2,44 @@
     {
         "title": "A2: Exploratory Data Analysis",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "url": "https://ashi-kamra.github.io/desktop-tutorial/projects/a2.html",
+        "year": "2025",
         "description": "In this project I conduct a general analysis of MBTA transit as it relates to transit-oriented development in Massachussets, with a specific focus on accessibility."
     },
     {
         "title": "A3: Visualization Critique & Redesign",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "url": "https://ashi-kamra.github.io/desktop-tutorial/projects/a3.html",
+        "year": "2025",
         "description": "In this project, I conduct critical design analysis a visualization from the New York Times, sketch my own version and present a final redesign based on my critiques."
     },
     {
-        "title": "Maxime impedit nostrum cum!",
+        "title": "A4: Perceptive or Deceptive Visualization",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Excepturi officia veniam sit odio! Autem itaque qui porro possimus quam nesciunt debitis aliquid sint a ad numquam explicabo voluptatibus quos, hic non suscipit fugiat facere vero doloribus sunt expedita!"
+        "url": "https://ashi-kamra.github.io/desktop-tutorial/projects/a4.html",
+        "year": "2025",
+        "description": "In this assignment, I utilize the principles of visualization design to manipulate a singular dataset and create a 1 perceptive and 1 deceptive visualization"
     },
     {
-        "title": "Reprehenderit tenetur ipsam temporibus?",
+        "title": "Catch Me If You Can't",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Laboriosam, ab omnis tempora voluptate sequi quae perferendis iste incidunt perspiciatis sit amet impedit quo dolor debitis, voluptatibus minima ea nostrum deserunt. Labore quae eligendi tempora nihil dolorum accusantium vero."
+        "url": "https://ashi-kamra.github.io/AIContentDetectorAnalysis/",
+        "year": "2023",
+        "description": "As a final deliverable for my research at the MIT Sloan School of Business I created a visual essay detailing my research on the accuracy of generative AI content detectors."
     },
     {
-        "title": "Aut vero animi reprehenderit.",
+        "title": "Wellesley Hackathon Development",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Optio placeat, ducimus rem illum soluta natus voluptas adipisci, laudantium, ea expedita tempore. Magnam, quam! Possimus, eligendi temporibus rerum soluta modi accusantium dolorum voluptatem veritatis ducimus mollitia corporis quod hic."
+        "url": "https://ashi-kamra.github.io/Personal-Website/hackathon.html",
+        "year": "2024",
+        "description": "As a member of the Web Development Team of the organizing committee was to help develop a site where students could gain vital information for all things WHACK. "
     },
     {
-        "title": "Maiores labore explicabo necessitatibus?",
+        "title": "Cash Course",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Nemo eum recusandae quo quis voluptatem aperiam, fugit hic veritatis voluptates accusantium est, vitae iusto. Sit nam aliquid minima recusandae, eos excepturi deleniti eaque quia quasi quas provident sequi repudiandae."
+        "url": "https://devpost.com/software/cash-course-wnza0h",
+        "year": "2024",
+        "description": "As our entry into the Wellesley Hackathon 2025, my team made a AI powered financial literacy platform targeted towards first-gen and low income students."
     },
     {
         "title": "Accusamus iusto voluptates hic.",

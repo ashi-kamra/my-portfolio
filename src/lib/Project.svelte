@@ -8,7 +8,10 @@
     <svelte:element this={"h" + hLevel}> <a href={data.url}> {data.title} </a></svelte:element>
     <img src={data.image} alt="">
     <br>
-    <p>{data.description} </p>
+    <div>
+        <p>{data.description} </p>
+        <p> c. {data.year}</p>
+    </div>
 </article>
 
 <style>

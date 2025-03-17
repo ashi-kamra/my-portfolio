@@ -10,23 +10,41 @@
         endAngle: 2 * Math.PI
     }); 
 
-    let data = [1, 2, 3, 4, 5, 5];
+    export let data = []; //now letting other files access data
     let colors = d3.scaleOrdinal(d3.schemeTableau10); //avoiding problem of having to manually input colors
-    let sliceGenerator = d3.pie();
-    let arcData = sliceGenerator(data); //arcData == array of objs representing slices
-    let arcs = arcData.map(d => arcGenerator(d)); //creatings paths for each slice by feeding it to arcGenerator
+    let sliceGenerator = d3.pie().value(d => d.value); //accessing value key in data
+    
+    //making these values reactive so the pie updates on search!
+    
+    let arcData; 
+    let arcs;
 
+    $: {
+        arcData = sliceGenerator(data); //arcData == array of objs representing slices
+        arcs = arcData.map(d => arcGenerator(d)); //creatings paths for each slice by feeding it to arcGenerator
+    }   
+    
 
 </script>
 
+<div class="container">
+    <svg viewBox="-50 -50 100 100">
+        {#each arcs as arc, index}
+            <!-- path is what is drawing the shape -->
+            <path d={arc} fill={ colors(index) } /> 
+        {/each}
+    </svg>
+    <ul class="legend">
+        {#each data as d, index}
+            <li style="--color: {colors(index)}">
+                <span class="swatch"></span>
+                {d.label} <em>({d.value})</em>
+            </li>
+        {/each}
+    </ul>
+</div>
 
-<svg viewBox="-50 -50 100 100">
-    {#each arcs as arc, index}
-        <!-- path is what is drawing the shape -->
-        <path d={arc} fill={ colors(index) } /> 
-    {/each}
-   
-</svg>
+
 
 <style>
     svg {
@@ -34,4 +52,29 @@
         margin-block: 1em;
         overflow: visible;
     }
+    .swatch {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background-color: var(--color);
+    }
+    ul {
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+        
+    }
+    .legend {
+        padding: 0.5em;
+        border: 1px solid black;
+        flex: 1;
+    }
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2em;
+    }
+
+
 </style>

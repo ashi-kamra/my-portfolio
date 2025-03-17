@@ -1,7 +1,35 @@
 <script>
+    import * as d3 from "d3"; 
     import projects from "$lib/projects.json";
     import Project from "$lib/Project.svelte";
     import Pie from "$lib/Pie.svelte";
+
+    $: filteredProjects = projects.filter(project => {
+        if (query) { //if query is not empty
+            let values = Object.values(project).join("\n").toLowerCase(); //can search across meta data too!
+            return values.includes(query.toLowerCase()); //our search! toLowerCase in both parts makes it case insensitive
+        }
+
+        return true;
+    })
+
+    let pieData;
+
+    $:{
+        pieData = {};
+
+        //implementing pie chart with project data
+        let rolledData = d3.rollups(filteredProjects, v => v.length, d => d.year);
+
+        pieData = rolledData.map(([year, count]) => {
+            return {value: count, label: year};
+        })
+    }
+        
+    //implementing search
+    let query = "";
+
+
 </script>
 
 <svelte:head>
@@ -12,10 +40,14 @@
     {projects.length} Projects
 </h1>
 
-<Pie />
+<!-- binding the value to our query! so input value and variable will always be same -->
+<input type="search" bind:value={query}
+ aria-label="Search projects" placeholder="🔍 Search projects" />
+
+<Pie data={pieData}/>
 
 <div class="projects">
-    {#each projects as p}
+    {#each filteredProjects as p}
         <Project data={p} />
     {/each}
 </div>
@@ -54,3 +86,12 @@
         </ul>
     </div>
 </section>
+
+<style>
+    input {
+        width: 100%;
+        height: 2em;
+        font-family: system-ui;
+        font-weight: bold;
+    }
+</style>

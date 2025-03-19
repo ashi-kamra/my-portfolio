@@ -4,6 +4,7 @@
     import Project from "$lib/Project.svelte";
     import Pie from "$lib/Pie.svelte";
 
+    //filtering by search
     $: filteredProjects = projects.filter(project => {
         if (query) { //if query is not empty
             let values = Object.values(project).join("\n").toLowerCase(); //can search across meta data too!
@@ -29,6 +30,21 @@
     //implementing search
     let query = "";
 
+    //implementing interactivity
+    let selectedYearIndex = -1;
+
+    let selectedYear;
+    $: selectedYear = selectedYearIndex > -1 ? pieData[selectedYearIndex].label : null;
+
+    //filtering by selecting pie
+    $: filteredByYear = filteredProjects.filter(project => {
+        if (selectedYear) { //when no years are selected, just return all filtered projects
+            return project.year === selectedYear;
+        }
+
+        return true;
+    });
+
 
 </script>
 
@@ -44,10 +60,9 @@
 <input type="search" bind:value={query}
  aria-label="Search projects" placeholder="🔍 Search projects" />
 
-<Pie data={pieData}/>
-
+<Pie data={pieData} bind:selectedIndex={selectedYearIndex}/>
 <div class="projects">
-    {#each filteredProjects as p}
+    {#each filteredByYear as p}
         <Project data={p} />
     {/each}
 </div>

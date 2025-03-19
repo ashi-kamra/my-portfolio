@@ -24,6 +24,9 @@
         arcs = arcData.map(d => arcGenerator(d)); //creatings paths for each slice by feeding it to arcGenerator
     }   
     
+    //interactivity
+
+    export let selectedIndex = -1;
 
 </script>
 
@@ -31,12 +34,15 @@
     <svg viewBox="-50 -50 100 100">
         {#each arcs as arc, index}
             <!-- path is what is drawing the shape -->
-            <path d={arc} fill={ colors(index) } /> 
+            <path d={arc} fill={ colors(index) } 
+                class:selected={selectedIndex === index}
+                on:click={e => selectedIndex = selectedIndex === index ? -1 : index}/> 
+                <!-- condition ? value if true : value if false -->
         {/each}
     </svg>
     <ul class="legend">
         {#each data as d, index}
-            <li style="--color: {colors(index)}">
+            <li style="--color: {colors(index)}" class:selected={selectedIndex === index}>
                 <span class="swatch"></span>
                 {d.label} <em>({d.value})</em>
             </li>
@@ -74,6 +80,34 @@
         align-items: center;
         justify-content: center;
         gap: 2em;
+    }
+
+    svg:has(path:hover) path:not(:hover) {
+        opacity: 60%;
+    }
+
+    .selected {
+        --color: oklch(60% 45% 0) !important;
+        
+        &:is(path) {
+            fill: var(--color) !important;
+        }
+        
+        &:is(li) {
+            color: var(--color);
+        }
+    }
+
+    ul:has(.selected) li:not(.selected) {
+        color: rgb(202, 199, 199);
+    }
+
+    path {
+        transition: 200ms;
+    }
+
+    path:hover {
+	    opacity: 100% !important;
     }
 
 

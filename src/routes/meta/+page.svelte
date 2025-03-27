@@ -5,6 +5,35 @@
     let data = [];
     let commits = [];
     let files = [];
+    let width = 1000, height = 600; //defining borders
+
+    //adding space for axes
+    let margin = {top: 10, right: 10, bottom: 30, left: 20}; 
+    let usableArea = {
+        top: margin.top,
+        right: width - margin.right,
+        bottom: height - margin.bottom,
+        left: margin.left
+    };
+    usableArea.width = usableArea.right - usableArea.left;
+    usableArea.height = usableArea.bottom - usableArea.top;
+    let xAxis, yAxis, yAxisGridlines;
+    $: {
+        d3.select(xAxis).call(d3.axisBottom(xScale));
+        d3.select(yAxis).call(d3.axisLeft(yScale).tickFormat(d => String(d%24).padStart(2,"0")+":00"));
+    }
+    $: {
+        d3.select(yAxisGridlines).call(
+            d3.axisLeft(yScale)
+                .tickFormat("")
+                .tickSize(-usableArea.width)
+        );
+    }
+
+    //adding tooltip functionality
+    let hoveredIndex = -1;
+    $: hoveredCommit = commits[hoveredIndex] ?? hoveredCommit ?? {};
+    let cursor = {x: 0, y: 0};
 
     onMount(async () => {
         data = await d3.csv("/loc.csv", row => ({
@@ -15,12 +44,13 @@
             date: new Date(row.date + "T00:00" + row.timezone),
             datetime: new Date(row.datetime)
         })); //row conversion function
+
         //collecting all data about commits
-        commits = d3.groups(data, d => d.commits).map(([commit, lines]) => {
+        commits = d3.groups(data, d => d.commit).map(([commit, lines]) => {
             let first = lines[0];
             let {author, date, time, timezone, datetime} = first;
             let ret = {
-                id: commits,
+                id: commit, //commit, not commits, otherwise that sets id = the entire array
                 url: "https://github.com/vis-society/lab-7/commit/" + commit,
 		        author, date, time, timezone, datetime,
                 hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
@@ -36,8 +66,24 @@
 
             return ret;
         });
+        
         files = d3.groups(data, (d) => d.file); //collecting the dif files
     })
+
+    $: minDate = d3.min(commits.map(d => d.date));
+    $: maxDate = d3.max(commits.map(d => d.date));
+    $: maxDatePlusOne = new Date(maxDate);
+    $: maxDatePlusOne.setDate(maxDatePlusOne.getDate() + 1);
+
+   
+    $: xScale = d3.scaleTime()
+        .domain([minDate, maxDatePlusOne])
+        .range([usableArea.left, usableArea.right])
+        .nice(); //rounds domain to "nice" round values
+
+    $: yScale = d3.scaleLinear()
+        .domain([24, 0])
+        .range([usableArea.bottom, usableArea.top]); //maps the 24 hrs values to fit the height values of our chart
 
 </script>
 
@@ -48,14 +94,47 @@
     <dt> Total Number of Files</dt>
     <dd>{files.length}</dd>
 </dl>
+<dl class="info tooltip" hidden={hoveredIndex === -1} style="top: {cursor.y}px; left: {cursor.x}px">
+    <dt>Commit:</dt>
+	<dd><a href="{ hoveredCommit.url }" target="_blank">{ hoveredCommit.id }</a></dd>
+    <dt>Date:</dt>
+    <dd>{hoveredCommit.datetime?.toLocaleString("en", {dateStyle: "full"})}</dd>
+    <dt>Time:</dt>
+    <dd>{hoveredCommit.time?.toLocaleString("en", {dateStyle: "full"})}</dd>
+    <dt>Author:</dt>
+    <dd>{hoveredCommit.author}</dd>
+</dl>
+<p>{JSON.stringify(cursor, null, "\t")}</p>
+
+<svg viewBox="0 0 {width} {height}">
+    <h3>Commits by Time of Day</h3>
+    <g transform="translate(0, {usableArea.bottom})" bind:this={xAxis}/>
+    <g class="gridlines" transform="translate({usableArea.left}, 0)" bind:this={yAxisGridlines}/>
+    <g transform="translate({usableArea.left}, 0)" bind:this={yAxis}/>
+    <g class="dots">  <!-- grouping svg elements together -->
+       {#each commits as commit, index }
+        <circle 
+            on:mouseenter={evt => {
+                hoveredIndex = index;
+                cursor = {x: evt.x, y: evt.y};
+            }}
+            on:mouseleave={evt => hoveredIndex = -1}
+            cx={ xScale(commit.datetime) }
+            cy={ yScale(commit.hourFrac) }
+            r="6"
+            fill="#E75480"
+        />
+       {/each}
+    </g>
+    
+    
+</svg>
 
 <style>
     .stats {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
-
-        
     }
 
     .stats dt {
@@ -66,4 +145,52 @@
         display: subgrid;
         color: #E75480;    
     }
+
+    svg {
+        overflow: visible;
+    }
+
+    .gridlines{
+        stroke-opacity: .2;
+    }
+
+    circle {
+        transition: 200ms;
+        transform-origin: center;
+        transform-box: fill-box;
+
+        &:hover {
+            transform: scale(1.5);
+            opacity: 0.5;
+        }
+    }
+
+    dl.info {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 5px; /* Or use column-gap specifically for horizontal spacing */
+        background-color: oklch(88.67% 0.0407 12.71 / 38.86%);
+        width: fit-content;
+        padding: 1em;
+        border-radius: 5px;
+        box-shadow: 0px 1px 8px oklch(46% 0 21.18 / 74.08%);
+        transition-duration: 500ms;
+        transition-property: opacity, visibility;
+        position: fixed;
+
+        &[hidden]:not(:hover, :focus-within) {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+
+    .info dt {
+        font-style: italic;
+    }
+
+    .info dd {
+        display: subgrid;   
+    }
+
+
 </style>

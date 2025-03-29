@@ -1,9 +1,16 @@
 <script>
     import * as d3 from "d3";
     import { onMount } from "svelte";
+    import {
+        computePosition,
+        autoPlacement,
+        offset
+    } from '@floating-ui/dom';
+    import Bar from '$lib/Bar.svelte';
 
     let data = [];
     let commits = [];
+    let clickedCommits = [];
     let files = [];
     let width = 1000, height = 600; //defining borders
 
@@ -30,10 +37,37 @@
         );
     }
 
+    //better tooltip functionality
+    let commitTooltip;
+    let tooltipPosition = {x: 0, y: 0};
+    async function dotInteraction(index, evt) {
+        let hoveredDot = evt.target;
+        if (evt.type === "mouseenter") {
+            hoveredIndex = index;
+            tooltipPosition = await computePosition(hoveredDot, commitTooltip, {
+                strategy: "fixed",
+                middleware: [
+                    offset(5), // spacing from tooltip to dot
+                    autoPlacement() // see https://floating-ui.com/docs/autoplacement
+                ],
+            });
+        }
+        else if (evt.type === "mouseleave") {
+            hoveredIndex = -1;
+        }
+        else if (evt.type === "click") {
+            let commit = commits[index]
+            if (!clickedCommits.includes(commit)) {
+                clickedCommits = [...clickedCommits, commit];
+            } else {
+                clickedCommits = clickedCommits.filter(c => c !== commit);
+            }
+        }
+    }
+
     //adding tooltip functionality
     let hoveredIndex = -1;
     $: hoveredCommit = commits[hoveredIndex] ?? hoveredCommit ?? {};
-    let cursor = {x: 0, y: 0};
 
     onMount(async () => {
         data = await d3.csv("/loc.csv", row => ({
@@ -75,7 +109,6 @@
     $: maxDatePlusOne = new Date(maxDate);
     $: maxDatePlusOne.setDate(maxDatePlusOne.getDate() + 1);
 
-   
     $: xScale = d3.scaleTime()
         .domain([minDate, maxDatePlusOne])
         .range([usableArea.left, usableArea.right])
@@ -84,6 +117,16 @@
     $: yScale = d3.scaleLinear()
         .domain([24, 0])
         .range([usableArea.bottom, usableArea.top]); //maps the 24 hrs values to fit the height values of our chart
+
+    //barchart functionality
+    $: allTypes = Array.from(new Set(data.map(d => d.type))); //extracting all programming languages in project
+    $: selectedLines = (clickedCommits.length > 0 ? clickedCommits : commits).flatMap(d => d.lines);//determine which commits should be included
+    $: selectedCounts = d3.rollup(
+        selectedLines,
+        v => v.length,
+        d => d.type
+    );
+    $: languageBreakdown = allTypes.map(type => [type, selectedCounts.get(type) || 0]); //including languages even if they have no LOCs
 
 </script>
 
@@ -94,7 +137,7 @@
     <dt> Total Number of Files</dt>
     <dd>{files.length}</dd>
 </dl>
-<dl class="info tooltip" hidden={hoveredIndex === -1} style="top: {cursor.y}px; left: {cursor.x}px">
+<dl class="info tooltip" bind:this={commitTooltip} hidden={hoveredIndex === -1} style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px">
     <dt>Commit:</dt>
 	<dd><a href="{ hoveredCommit.url }" target="_blank">{ hoveredCommit.id }</a></dd>
     <dt>Date:</dt>
@@ -104,7 +147,6 @@
     <dt>Author:</dt>
     <dd>{hoveredCommit.author}</dd>
 </dl>
-<p>{JSON.stringify(cursor, null, "\t")}</p>
 
 <svg viewBox="0 0 {width} {height}">
     <h3>Commits by Time of Day</h3>
@@ -114,21 +156,21 @@
     <g class="dots">  <!-- grouping svg elements together -->
        {#each commits as commit, index }
         <circle 
-            on:mouseenter={evt => {
-                hoveredIndex = index;
-                cursor = {x: evt.x, y: evt.y};
-            }}
-            on:mouseleave={evt => hoveredIndex = -1}
+            class:selected={ clickedCommits.includes(commit)}
+            on:mouseenter={evt => dotInteraction(index, evt)}
+            on:mouseleave={evt => dotInteraction(index, evt)}
+            on:click={ evt => dotInteraction(index, evt) }
             cx={ xScale(commit.datetime) }
             cy={ yScale(commit.hourFrac) }
             r="6"
-            fill="#E75480"
+            fill="grey" 
         />
        {/each}
     </g>
     
     
 </svg>
+<Bar data={languageBreakdown} width={width}/>
 
 <style>
     .stats {
@@ -190,6 +232,10 @@
 
     .info dd {
         display: subgrid;   
+    }
+
+    .selected {
+        fill: #E75480;
     }
 
 

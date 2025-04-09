@@ -43,7 +43,7 @@
     },
     {
         "title": "BikeBash",
-        "image": "/images/bikebash.png",
+        "image": "../static/images/bikebash.png",
         "url": "https://ashi-kamra.github.io/bikebash/",
         "year": "2025",
         "description": "In this project, I created interactive map visualization and isochrones to understand the average bluebike traffic in boston across one day and time it takes to travel from any given bike station."

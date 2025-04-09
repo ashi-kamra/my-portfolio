@@ -42,10 +42,11 @@
         "description": "As our entry into the Wellesley Hackathon 2025, my team made a AI powered financial literacy platform targeted towards first-gen and low income students."
     },
     {
-        "title": "Accusamus iusto voluptates hic.",
+        "title": "BikeBash",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "year": "2000",
-        "description": "Adipisci officia ad molestiae quasi? Ad, neque maiores? Iusto deleniti excepturi ipsam culpa assumenda ex delectus, eum laudantium libero? Alias beatae aperiam possimus odio esse nobis veritatis impedit non doloribus."
+        "url": "https://ashi-kamra.github.io/bikebash/",
+        "year": "2025",
+        "description": "In this project, I created interactive map visualization and isochrones to understand the average bluebike traffic in boston across one day and time it takes to travel from any given bike station."
     },
     {
         "title": "Modi, iure. Unde, a!",

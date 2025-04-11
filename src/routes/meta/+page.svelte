@@ -15,6 +15,16 @@
     let files = [];
     let width = 1000, height = 600; //defining borders
 
+    //scrollytelling 
+    let commitProgress = 100;
+    $: timeScale = d3.scaleTime()
+        .domain([minDate, maxDatePlusOne])
+        .range([0, 100])
+        .nice()
+
+    $: commitMaxTime = timeScale.invert(commitProgress);
+
+
     //adding space for axes
     let margin = {top: 10, right: 10, bottom: 30, left: 20}; 
     let usableArea = {
@@ -109,6 +119,9 @@
     $: maxDate = d3.max(commits.map(d => d.date));
     $: maxDatePlusOne = new Date(maxDate);
     $: maxDatePlusOne.setDate(maxDatePlusOne.getDate() + 1);
+    $: filteredCommits = commits.filter(commit => commit.datetime <= commitMaxTime);
+    $: filteredLines = data.filter(point => point.datetime <= commitMaxTime);
+
 
     $: xScale = d3.scaleTime()
         .domain([minDate, maxDatePlusOne])
@@ -138,6 +151,13 @@
     <dt> Total Number of Files</dt>
     <dd>{files.length}</dd>
 </dl>
+
+<div class="slider-container">
+    <label>Show commits until:</label>
+    <input id="slider" type="range" min=0 max=100 bind:value={commitProgress}>
+    <time>{commitMaxTime.toLocaleString()}</time>
+</div>
+
 <dl class="info tooltip" bind:this={commitTooltip} hidden={hoveredIndex === -1} style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px">
     <dt>Commit:</dt>
 	<dd><a href="{ hoveredCommit.url }" target="_blank">{ hoveredCommit.id }</a></dd>
@@ -237,6 +257,18 @@
 
     .selected {
         fill: #E75480;
+    }
+
+    .slider-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        white-space: nowrap;
+    }
+
+    #slider {
+        display: flex;
+        flex: 1;
+        
     }
 
 

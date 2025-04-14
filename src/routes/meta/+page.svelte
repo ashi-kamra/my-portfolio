@@ -24,6 +24,10 @@
 
     $: commitMaxTime = timeScale.invert(commitProgress);
 
+    $: timeFilterLabel = commitMaxTime.toLocaleString("en", {dateStyle: "long", timeStyle: "short"});
+
+    $: filteredCommits = commits.filter(commit => commit.datetime <= commitMaxTime);
+    $: filteredLines = data.filter(point => point.datetime <= commitMaxTime);
 
     //adding space for axes
     let margin = {top: 10, right: 10, bottom: 30, left: 20}; 
@@ -78,7 +82,7 @@
 
     //adding tooltip functionality
     let hoveredIndex = -1;
-    $: hoveredCommit = commits[hoveredIndex] ?? hoveredCommit ?? {};
+    $: hoveredCommit = filteredCommits[hoveredIndex] ?? hoveredCommit ?? {};
 
     onMount(async () => {
         data = await d3.csv(`${base}/loc.csv`, row => ({
@@ -119,12 +123,15 @@
     $: maxDate = d3.max(commits.map(d => d.date));
     $: maxDatePlusOne = new Date(maxDate);
     $: maxDatePlusOne.setDate(maxDatePlusOne.getDate() + 1);
-    $: filteredCommits = commits.filter(commit => commit.datetime <= commitMaxTime);
-    $: filteredLines = data.filter(point => point.datetime <= commitMaxTime);
+
+    $: minDate_filtered = d3.min(filteredCommits.map(d=>d.date));
+    $: maxDate_filtered = d3.max(filteredCommits.map(d=>d.date));
+    $: maxDatePlusOne_filtered = new Date(maxDate_filtered);
+    $: maxDatePlusOne_filtered.setDate(maxDatePlusOne_filtered.getDate() + 1);
 
 
     $: xScale = d3.scaleTime()
-        .domain([minDate, maxDatePlusOne])
+        .domain([minDate_filtered, maxDatePlusOne_filtered])
         .range([usableArea.left, usableArea.right])
         .nice(); //rounds domain to "nice" round values
 
@@ -147,7 +154,7 @@
 <h1>Meta Data</h1>
 <dl class="stats">
     <dt> Total <abbr title="Lines of code">LOC</abbr></dt>
-    <dd>{data.length}</dd>
+    <dd>{filteredLines.length}</dd>
     <dt> Total Number of Files</dt>
     <dd>{files.length}</dd>
 </dl>
@@ -155,7 +162,7 @@
 <div class="slider-container">
     <label>Show commits until:</label>
     <input id="slider" type="range" min=0 max=100 bind:value={commitProgress}>
-    <time>{commitMaxTime.toLocaleString()}</time>
+    <time>{timeFilterLabel}</time>
 </div>
 
 <dl class="info tooltip" bind:this={commitTooltip} hidden={hoveredIndex === -1} style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px">
@@ -175,7 +182,7 @@
     <g class="gridlines" transform="translate({usableArea.left}, 0)" bind:this={yAxisGridlines}/>
     <g transform="translate({usableArea.left}, 0)" bind:this={yAxis}/>
     <g class="dots">  <!-- grouping svg elements together -->
-       {#each commits as commit, index }
+       {#each filteredCommits as commit, index (commit.id) }
         <circle 
             class:selected={ clickedCommits.includes(commit)}
             on:mouseenter={evt => dotInteraction(index, evt)}
@@ -226,6 +233,11 @@
             transform: scale(1.5);
             opacity: 0.5;
         }
+
+        @starting-style {
+            r: 0;
+        }
+
     }
 
     dl.info {

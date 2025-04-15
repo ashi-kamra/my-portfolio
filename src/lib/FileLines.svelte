@@ -13,7 +13,7 @@
     const baseY = 5;
     const totalLinesOffset = 20;
     const fileInfoHeight = baseY + totalLinesOffset;
-    const dotRowHeight = 20;
+    const dotRowHeight = 40;
 
     let svg;
 
@@ -106,7 +106,16 @@
             previousDotCounts.set(d.name, newCount);
         });
 
-
+        groups.transition()
+            .duration(function(d, i) {
+                const currentTransform = this.getAttribute("transform") || "translate(0,0)";
+                const match = currentTransform.match(/translate\(\s*0\s*,\s*([0-9.]+)\s*\)/);
+                const oldY = match ? +match[1] : 0;
+                const newY = positions[i];
+                const distance = Math.abs(newY - oldY);
+                return distance * 2;
+            })
+            .attr('transform', (d, i) => `translate(0, ${positions[i]})`); // Animate to new position
     }
 
     function generateDots(file, svgWidth) {

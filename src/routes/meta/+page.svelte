@@ -17,6 +17,10 @@
     let files = [];
     let width = 1000, height = 600; //defining borders
 
+    let colorScale = d3.scaleOrdinal(d3.schemeTableau10)
+        .range(d3.schemeTableau10);
+
+
     //scrollytelling 
     let commitProgress = 100;
     $: timeScale = d3.scaleTime()
@@ -98,11 +102,11 @@
     <time>{timeFilterLabel}</time>
 </div>
 
-<FileLines lines={filteredLines} width={width}/>
+<FileLines lines={filteredLines} width={width} colorScale={colorScale}/>
 
 <Scatterplot filteredCommits={filteredCommits} bind:clickedCommits={clickedCommits} />
 
-<Bar data={languageBreakdown} width={width}/>
+<Bar data={languageBreakdown} width={width} colorScale={colorScale}/>
 
 <style>
     .stats {

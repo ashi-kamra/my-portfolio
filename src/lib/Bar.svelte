@@ -8,6 +8,8 @@
 	let selectedIndex = -1;
 	let hoveredIndex = -1;
 
+	export let colorScale = d3.scaleOrdinal();
+
 	const MIN_LABEL_WIDTH = 40; // Minimum width to place label inside
 
 	// Direct mapping from flatRollup-like data: [label, count]
@@ -19,9 +21,8 @@
 			.range([0, width]);
 
 	// Color scale for bar colors
-	$: colorScale = d3.scaleOrdinal()
-			.domain(barData.map(d => d.label))
-			.range(d3.schemeTableau10);
+	$: colorScale.domain(barData.map(d => d.label))
+
 </script>
 
 <div class="container">

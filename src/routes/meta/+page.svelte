@@ -9,6 +9,7 @@
     import { base } from '$app/paths';
     import Bar from '$lib/Bar.svelte';
     import Scatterplot from "./Scatterplot.svelte";
+    import FileLines from "$lib/FileLines.svelte";
 
     let data = [];
     let commits = [];
@@ -97,6 +98,8 @@
     <time>{timeFilterLabel}</time>
 </div>
 
+<FileLines lines={filteredLines} width={width}/>
+
 <Scatterplot filteredCommits={filteredCommits} bind:clickedCommits={clickedCommits} />
 
 <Bar data={languageBreakdown} width={width}/>
@@ -128,5 +131,6 @@
         flex: 1;
         
     }
+
 
 </style>
